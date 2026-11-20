@@ -1,5 +1,6 @@
 {
   "name": "Dale Play - Juego Musical",
+  "id": "/Dale-Play-App-by-Ludyco/",
   "short_name": "Dale Play",
   "description": "App complementaria oficial para el juego de mesa musical Dale Play",
   "start_url": "./index.html",
