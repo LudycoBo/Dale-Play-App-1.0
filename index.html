@@ -170,7 +170,7 @@
     <section id="screen-splash" class="app-screen absolute inset-0 z-30 flex flex-col justify-between p-6 pl-8 bg-cover bg-center" style="background-image: url('assets/splash-portada.jpg');">
       <div class="flex items-center justify-between w-full z-10 pt-2">
         <span class="px-3 py-1 rounded-full text-[11px] font-black tracking-wider bg-cyan-950/80 text-cyan-400 border border-cyan-500/30 uppercase">
-          VERSIÓN 2.2
+          VERSIÓN 1.2
         </span>
         <span id="splash-song-count" class="px-3 py-1 rounded-full text-[11px] font-black tracking-wider bg-amber-950/80 text-amber-400 border border-amber-500/30 uppercase">
           348 CANCIONES VERIFICADAS
@@ -244,7 +244,37 @@
         <img src="assets/ludyco.png" alt="Ludyco" class="h-12 max-h-14 object-contain drop-shadow-md">
       </div>
     </section>
+<!-- ======================================================== -->
+    <!-- MODAL EMERGENTE: INSTALAR EN ANDROID (1 SOLO TOQUE)      -->
+    <!-- ======================================================== -->
+    <div id="modal-android-install" class="hidden absolute inset-0 z-50 bg-black/85 flex items-center justify-center p-4 pl-7">
+      <div class="retro-card w-full max-w-[340px] p-5 border-2 border-[#31c8c9] bg-slate-900/95 shadow-2xl flex flex-col gap-3.5">
+        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-[#31c8c9] text-black flex items-center justify-center font-bold">
+              <i data-lucide="download" class="w-5 h-5 stroke-[2.5]"></i>
+            </div>
+            <h3 class="font-display font-black text-xl text-cyan-300 tracking-wide">INSTALAR APLICACIÓN</h3>
+          </div>
+          <button onclick="closeAndroidInstallModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center" aria-label="Cerrar">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
 
+        <p class="text-xs text-slate-200 leading-relaxed">
+          Instala <span class="text-white font-bold">Dale Play</span> en tu teléfono para jugar a pantalla completa, con escaneo rápido y sin barras de navegador.
+        </p>
+
+        <button onclick="triggerAndroidInstall()" class="btn-3d w-full py-3.5 rounded-xl bg-[#31c8c9] text-black font-display font-black text-xl tracking-wider hover:bg-[#28b5b6] transition-colors flex items-center justify-center gap-2 mt-1">
+          <i data-lucide="plus-circle" class="w-5 h-5 stroke-[2.5]"></i>
+          <span>INSTALAR APP AHORA</span>
+        </button>
+
+        <button onclick="closeAndroidInstallModal()" class="text-[11px] text-slate-400 font-bold hover:text-white text-center py-1">
+          Continuar en el navegador
+        </button>
+      </div>
+    </div>
     <!-- ======================================================== -->
     <!-- TARJETA EMERGENTE: CÓMO INSTALAR EN IPHONE (SOLO EN iOS)  -->
     <!-- ======================================================== -->
@@ -929,6 +959,53 @@
       const isStandalone = ('standalone' in window.navigator && window.navigator.standalone) || 
                            window.matchMedia('(display-mode: standalone)').matches;
       return isStandalone;
+    }
+// ========================================================
+    // GESTIÓN DE INSTALACIÓN NATIVA EN ANDROID (PWA)
+    // ========================================================
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Evita la barra genérica del navegador para mostrar nuestro modal temático
+      e.preventDefault();
+      deferredPrompt = e;
+
+      // Si no es iOS y NO está instalada, mostramos el aviso
+      if (!isRunningOnIos() && !isAppAlreadyInstalled()) {
+        setTimeout(() => {
+          showAndroidInstallModal();
+        }, 1000);
+      }
+    });
+
+    function showAndroidInstallModal() {
+      const modal = document.getElementById('modal-android-install');
+      if (modal) {
+        modal.classList.remove('hidden');
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
+    function closeAndroidInstallModal() {
+      const modal = document.getElementById('modal-android-install');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function triggerAndroidInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('El usuario aceptó la instalación');
+          }
+          deferredPrompt = null;
+          closeAndroidInstallModal();
+        });
+      } else {
+        // En caso de navegadores alternativos en Android (ej. Firefox o navegador interno)
+        alert('Para instalar: abre el menú (⋮) de tu navegador y pulsa "Instalar aplicación" o "Agregar a la pantalla principal".');
+        closeAndroidInstallModal();
+      }
     }
 
     window.addEventListener('DOMContentLoaded', () => {
