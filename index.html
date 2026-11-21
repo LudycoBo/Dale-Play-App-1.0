@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Dale Play -  App Oficial</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Dale Play - App Oficial</title>
   
   <!-- PWA & Mobile Web App Meta -->
   <meta name="theme-color" content="#030712">
@@ -99,7 +102,7 @@
 
     /* Pulsación del área superior del casete físico */
     @keyframes pulse-top-cassette {
-      0%, 100% { border-color: rgba(49, 200, 201, 0.8); box-shadow: 0 0 25px rgba(49, 200, 201, 0.35); }
+      0%, 100% { border-color: rgba(49, 200, 201, 0.85); box-shadow: 0 0 25px rgba(49, 200, 201, 0.35); }
       50% { border-color: rgba(252, 224, 29, 0.95); box-shadow: 0 0 40px rgba(252, 224, 29, 0.55); }
     }
     .top-cassette-active {
@@ -109,7 +112,7 @@
     /* Animación de flecha indicadora hacia arriba */
     @keyframes bounce-up {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+      50% { transform: translateY(-7px); }
     }
     .arrow-bounce-up {
       animation: bounce-up 1.2s infinite ease-in-out;
@@ -194,7 +197,7 @@
           ENTRAR AL JUEGO
         </button>
         <span class="text-[10px] text-slate-300/70 font-mono tracking-widest uppercase">
-          © LUDYCO • EDICIÓN OFICIAL 2026
+          © LUDYCO • EDICIÓN OFICIAL 2025
         </span>
       </div>
     </section>
@@ -255,8 +258,8 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- MODAL EMERGENTE UNIFICADO: GUÍA DE INSTALACIÓN PWA       -->
-    <!-- SELECCIÓN ENTRE NAVEGADORES: CHROME, EDGE, SAFARI, OTROS -->
+    <!-- MODAL EMERGENTE INTELIGENTE: GUÍA DE INSTALACIÓN PWA     -->
+    <!-- SEPARACIÓN ESTRICTA: ANDROID VS IOS                      -->
     <!-- ======================================================== -->
     <div id="modal-install-guide" class="hidden absolute inset-0 z-50 bg-black/85 flex items-center justify-center p-4 pl-7">
       <div class="retro-card w-full max-w-[340px] p-5 border-2 border-[#fce01d]/90 bg-slate-900/95 shadow-2xl flex flex-col gap-3.5 max-h-[90vh] overflow-y-auto no-scrollbar">
@@ -276,110 +279,20 @@
           Te recomendamos seguir estos pasos para tener la app instalada y jugar en pantalla completa:
         </p>
 
-        <!-- Pestañas por Navegador: CHROME, EDGE, SAFARI, OTROS -->
-        <div class="grid grid-cols-4 gap-1 p-1 rounded-xl bg-slate-800/80 border border-slate-700 text-[11px] font-bold">
-          <button id="tab-chrome" onclick="switchBrowserTab('chrome')" class="py-1.5 rounded-lg bg-[#31c8c9] text-black font-display font-black tracking-wide transition-all">CHROME</button>
-          <button id="tab-edge" onclick="switchBrowserTab('edge')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">EDGE</button>
-          <button id="tab-safari" onclick="switchBrowserTab('safari')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">SAFARI</button>
-          <button id="tab-otros" onclick="switchBrowserTab('otros')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">OTROS</button>
+        <!-- CONTENEDOR DE PESTAÑAS DINÁMICAS (SE INYECTAN SEGÚN ANDROID O IOS) -->
+        <div id="install-tabs-header" class="grid gap-1 p-1 rounded-xl bg-slate-800/80 border border-slate-700 text-[11px] font-bold">
+          <!-- Inyectado por JS -->
         </div>
 
-        <!-- GUÍA CHROME (ANDROID / iOS / PC) -->
-        <div id="content-chrome" class="browser-guide flex flex-col gap-2.5">
-          <button id="btn-pwa-chrome-install" onclick="triggerDirectInstallPrompt()" class="btn-3d w-full py-2.5 rounded-xl bg-[#31c8c9] text-black font-display font-black text-sm tracking-wider hover:bg-[#28b5b6] transition-colors flex items-center justify-center gap-2">
-            <i data-lucide="download" class="w-4 h-4 fill-current"></i>
-            <span>INSTALAR DIRECTAMENTE</span>
-          </button>
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="more-vertical" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
-              <p class="text-slate-200">Toca el menú <span class="text-white font-bold">( ⋮ o ··· )</span> en la esquina del navegador Chrome.</p>
-            </div>
-          </div>
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
-              <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Instalar aplicación"</span> o <span class="text-amber-300 font-bold">"Agregar a la pantalla principal"</span>.</p>
-            </div>
-          </div>
+        <!-- CONTENEDOR DE GUÍAS DINÁMICAS -->
+        <div id="install-guides-container" class="flex flex-col gap-2.5">
+          <!-- Inyectado por JS -->
         </div>
 
-        <!-- GUÍA EDGE -->
-        <div id="content-edge" class="browser-guide hidden flex flex-col gap-2.5">
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="menu" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
-              <p class="text-slate-200">Toca el menú de tres líneas o puntos <span class="text-white font-bold">( ☰ o ··· )</span> en Edge.</p>
-            </div>
-          </div>
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
-              <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Agregar al teléfono"</span> o <span class="text-amber-300 font-bold">"Instalar este sitio como aplicación"</span>.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- GUÍA SAFARI (iOS / iPhone / iPad) -->
-        <div id="content-safari" class="browser-guide hidden flex flex-col gap-2.5">
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="share" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
-              <p class="text-slate-200">Toca el botón <span class="text-white font-bold">Compartir</span> (el cuadro con la flecha hacia arriba) en la barra inferior.</p>
-            </div>
-          </div>
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
-              <p class="text-slate-200">Baja en las opciones y pulsa <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- GUÍA OTROS (Firefox, Brave, Samsung Internet, Opera) -->
-        <div id="content-otros" class="browser-guide hidden flex flex-col gap-2.5">
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="menu" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
-              <p class="text-slate-200">En <span class="text-white font-bold">Firefox, Brave u Opera</span>, pulsa el menú principal o Compartir.</p>
-            </div>
-          </div>
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
-              <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Instalar"</span> o <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
-            </div>
-          </div>
-        </div>
-
-        <button onclick="closeInstallModal()" class="btn-3d w-full py-3 rounded-xl bg-[#fce01d] text-black font-display font-black text-lg tracking-wider hover:bg-amber-300 transition-colors mt-1">
+        <button onclick="dismissInstallModalPermanent()" class="btn-3d w-full py-3 rounded-xl bg-[#fce01d] text-black font-display font-black text-lg tracking-wider hover:bg-amber-300 transition-colors mt-1">
           ¡ENTENDIDO, A JUGAR!
         </button>
-        <button onclick="closeInstallModal()" class="text-xs text-slate-400 underline hover:text-white py-0.5">
+        <button onclick="dismissInstallModalPermanent()" class="text-xs text-slate-400 underline hover:text-white py-0.5">
           Continuar en el navegador
         </button>
       </div>
@@ -394,7 +307,6 @@
           <i data-lucide="chevron-left" class="w-6 h-6"></i>
         </button>
         <span class="font-display font-black text-[#fce01d] text-lg tracking-wider">MODO DE REPRODUCCIÓN</span>
-        <!-- BOTÓN PERSISTENTE AL MENÚ PRINCIPAL -->
         <button onclick="stopMusicAndGo('screen-menu')" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white" title="Ir al Menú Principal">
           <i data-lucide="home" class="w-5 h-5"></i>
         </button>
@@ -450,7 +362,6 @@
           <span class="font-display font-black text-[#fce01d] text-xl tracking-wider block">ESCANEAR CARTA</span>
           <span id="current-mode-label" class="text-[11px] font-bold text-cyan-400 tracking-wider">MODO: DESDE EL INICIO</span>
         </div>
-        <!-- BOTÓN PERSISTENTE AL MENÚ PRINCIPAL -->
         <button onclick="stopCameraAndGo('screen-menu')" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white" title="Ir al Menú Principal">
           <i data-lucide="home" class="w-5 h-5"></i>
         </button>
@@ -491,7 +402,6 @@
         <span class="px-3 py-1 rounded-full text-xs font-black bg-emerald-950/80 text-emerald-400 border border-emerald-500/40 uppercase tracking-wider">
           QR DETECTADO
         </span>
-        <!-- BOTÓN PERSISTENTE AL MENÚ PRINCIPAL -->
         <button onclick="stopMusicAndGo('screen-menu')" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white" title="Ir al Menú Principal">
           <i data-lucide="home" class="w-5 h-5"></i>
         </button>
@@ -516,22 +426,20 @@
         </button>
       </div>
 
-      <!-- VARIANTE 2: MODO SECRETO ÓPTICO (INSERTE EL CASETE AQUÍ ↑ - REUBICADO SUPERIOR) -->
-      <div id="ready-view-cassette" class="hidden flex flex-col items-center justify-between h-full pt-1 pb-2 w-full">
+      <!-- VARIANTE 2: MODO SECRETO ÓPTICO (TEXTOS ERGONÓMICOS V2.6) -->
+      <div id="ready-view-cassette" class="hidden flex flex-col items-center justify-start h-full pt-2 pb-2 w-full">
         
-        <!-- GUÍA SUPERIOR DEL CASETE FÍSICO (SOBRESALE 1/4 POR ARRIBA PARA TAPAR LA CÁMARA SELFIE) -->
-        <div onclick="handleScreenCovered()" class="w-full max-w-[280px] mx-auto pt-1 cursor-pointer">
-          <!-- Silueta que ilustra 1/4 saliendo del marco superior del teléfono -->
+        <!-- GUÍA SUPERIOR DEL CASETE FÍSICO -->
+        <div onclick="handleScreenCovered()" class="w-full max-w-[290px] mx-auto cursor-pointer">
           <div class="relative w-full h-[145px] rounded-b-3xl border-x-2 border-b-2 border-dashed border-[#31c8c9] bg-gradient-to-b from-cyan-950/90 via-slate-900/90 to-slate-900/95 top-cassette-active flex flex-col items-center justify-between p-2 shadow-2xl">
             
-            <!-- Flecha hacia arriba e indicación visual de sobresalir 1/4 -->
-            <div class="flex items-center gap-2 py-1 px-3 bg-cyan-950/80 border border-cyan-400/50 rounded-full shadow-md mt-0.5">
-              <i data-lucide="arrow-up" class="w-4 h-4 text-cyan-300 stroke-[3] arrow-bounce-up"></i>
-              <span class="text-[10px] font-black text-cyan-300 tracking-wider uppercase">1/4 SOBRESALE POR ARRIBA</span>
-              <i data-lucide="arrow-up" class="w-4 h-4 text-cyan-300 stroke-[3] arrow-bounce-up"></i>
+            <div class="flex items-center gap-2 py-0.5 px-3 bg-cyan-950/80 border border-cyan-400/50 rounded-full shadow-md mt-0.5">
+              <i data-lucide="arrow-up" class="w-3.5 h-3.5 text-cyan-300 stroke-[3] arrow-bounce-up"></i>
+              <span class="text-[10px] font-black text-cyan-300 tracking-wider uppercase">CUBRE CÁMARA FRONTAL</span>
+              <i data-lucide="arrow-up" class="w-3.5 h-3.5 text-cyan-300 stroke-[3] arrow-bounce-up"></i>
             </div>
 
-            <!-- Gráfico esquemático de casete centrado tapando la cámara frontal -->
+            <!-- Gráfico de casete esquemático -->
             <div class="flex items-center gap-4 my-auto">
               <div class="w-8 h-8 rounded-full border-2 border-dashed border-[#fce01d] flex items-center justify-center bg-black/60">
                 <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
@@ -544,39 +452,40 @@
               </div>
             </div>
 
-            <div class="w-full py-1 rounded-xl bg-black/80 border border-cyan-500/30 text-center">
-              <span class="text-[10px] font-mono font-bold text-cyan-300 tracking-widest uppercase">CUBRE CÁMARA FRONTAL</span>
+            <!-- TEXTO ERGONÓMICO SOLICITADO: COLOCA LA PARTE INFERIOR DEL CASETE AQUÍ -->
+            <div class="w-full py-1 rounded-xl bg-black/85 border border-[#31c8c9]/50 text-center shadow">
+              <span class="text-[11px] font-display font-black text-[#fce01d] tracking-wider uppercase">
+                Coloca la parte inferior del casete aquí
+              </span>
             </div>
           </div>
         </div>
 
-        <!-- MITAD INFERIOR: ELEMENTOS BAJADOS PARA NO SER TAPADOS POR EL CASETE -->
-        <div class="w-full flex flex-col items-center gap-2.5 mt-auto pt-3">
-          
-          <!-- MENSAJE NATURAL CON FLECHA EN TAMAÑO DESTACADO Y LEGIBLE -->
-          <div class="text-center">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/90 border border-cyan-400/40 text-cyan-300 text-xs font-black uppercase tracking-widest mb-1.5 shadow">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#fce01d]"></i>
-              <span>MODO SECRETO ÓPTICO</span>
-            </div>
-            
-            <h2 class="font-display font-black text-4xl text-[#fce01d] tracking-wide flex items-center justify-center gap-2 leading-none">
-              <span>INSERTE EL CASETE AQUÍ</span>
-              <i data-lucide="arrow-up" class="w-8 h-8 text-[#fce01d] stroke-[3] arrow-bounce-up"></i>
-            </h2>
-            
-            <p class="text-xs text-slate-300 max-w-[300px] mx-auto leading-tight mt-1.5 font-medium">
-              Apoya el casete de cartón arriba para tapar la cámara frontal. Al retirarlo se revelará la canción.
-            </p>
+        <!-- TEXTO: INSERTE EL CASETE AQUÍ (REUBICADO JUSTO POR DEBAJO DEL CASETE) -->
+        <div class="w-full text-center mt-3 mb-auto">
+          <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-cyan-950/90 border border-cyan-400/40 text-cyan-300 text-[11px] font-black uppercase tracking-widest mb-1 shadow">
+            <i data-lucide="sparkles" class="w-3 h-3 text-[#fce01d]"></i>
+            <span>MODO SECRETO ÓPTICO</span>
           </div>
+          
+          <h2 class="font-display font-black text-3xl sm:text-4xl text-[#fce01d] tracking-wide flex items-center justify-center gap-2 leading-none">
+            <span>INSERTE EL CASETE AQUÍ</span>
+            <i data-lucide="arrow-up" class="w-7 h-7 text-[#fce01d] stroke-[3] arrow-bounce-up"></i>
+          </h2>
+          
+          <p class="text-xs text-slate-300 max-w-[300px] mx-auto leading-tight mt-1.5 font-medium">
+            Apoya el casete de cartón arriba tapando la cámara. Al retirarlo se revelará la canción en 0.5s.
+          </p>
 
           <!-- BADGE DE ESTADO DEL SENSOR ÓPTICO -->
-          <div id="front-sensor-status-badge" class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-xs font-bold text-slate-200 shadow-lg">
+          <div id="front-sensor-status-badge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-xs font-bold text-slate-200 shadow-lg mt-3">
             <span id="front-sensor-dot" class="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></span>
             <span id="front-sensor-text" class="font-display text-sm tracking-wider">ESPERANDO CASETE ARRIBA...</span>
           </div>
+        </div>
 
-          <!-- SALIDA DE EMERGENCIA MANUAL -->
+        <!-- SALIDA DE EMERGENCIA MANUAL -->
+        <div class="w-full text-center pb-2">
           <button onclick="startPlayback()" class="text-xs text-slate-400 underline hover:text-white py-1">
             ¿No puedes tapar la cámara? Toca aquí para reproducir
           </button>
@@ -594,7 +503,6 @@
           La música arrancará automáticamente al finalizar la cuenta regresiva:
         </p>
 
-        <!-- Contador gigante animado 3.. 2.. 1.. -->
         <div class="w-44 h-44 rounded-full border-4 border-[#31c8c9] bg-slate-900/90 flex flex-col items-center justify-center shadow-[0_0_40px_rgba(49,200,201,0.4)] my-6 relative overflow-hidden">
           <span id="countdown-big-number" class="font-display font-black text-7xl text-[#fce01d] tracking-widest countdown-anim">3</span>
           <span class="text-[11px] font-mono uppercase tracking-widest text-cyan-300 mt-1">SEGUNDOS</span>
@@ -610,7 +518,6 @@
 
     <!-- ======================================================== -->
     <!-- 6. PANTALLA: REPRODUCIENDO (CASETE / TEMPORIZADOR)       -->
-    <!-- ELEMENTOS BAJADOS PARA NO QUEDAR TAPADOS POR EL CARTÓN    -->
     <!-- ======================================================== -->
     <section id="screen-playing" class="app-screen hidden absolute inset-0 z-20 flex flex-col justify-between p-6 pl-9 bg-grunge">
       <div class="flex items-center justify-between w-full pt-2">
@@ -621,19 +528,18 @@
           <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
           REPRODUCIENDO
         </span>
-        <!-- BOTÓN PERSISTENTE AL MENÚ PRINCIPAL -->
         <button onclick="stopMusicAndGo('screen-menu')" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white" title="Ir al Menú Principal">
           <i data-lucide="home" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <!-- ZONA SUPERIOR RESERVADA PARA EL CASETE FÍSICO DE CARTÓN -->
-      <div id="playing-top-cassette-placeholder" class="hidden w-full max-w-[280px] mx-auto h-[120px] rounded-b-2xl border-x-2 border-b-2 border-dashed border-[#31c8c9]/50 bg-black/40 flex flex-col items-center justify-center p-2 text-center pointer-events-none mb-1">
+      <!-- ZONA DEL CASETE FÍSICO ARRIBA -->
+      <div id="playing-top-cassette-placeholder" class="hidden w-full max-w-[280px] mx-auto h-[110px] rounded-b-2xl border-x-2 border-b-2 border-dashed border-[#31c8c9]/50 bg-black/40 flex flex-col items-center justify-center p-2 text-center pointer-events-none mb-1">
         <span class="text-[10px] font-mono text-cyan-300 tracking-wider">ZONA DEL CASETE FÍSICO</span>
-        <span class="text-[9px] text-slate-400">1/4 sobresale por arriba</span>
+        <span class="text-[9px] text-slate-400">Parte inferior del casete apoyada</span>
       </div>
 
-      <!-- MITAD INFERIOR DESPEJADA: CASETE ANALÓGICO VIRTUAL + CONTROLES (COMPLETAMENTE VISIBLES) -->
+      <!-- MITAD INFERIOR DESPEJADA: CASETE ANALÓGICO VIRTUAL + CONTROLES -->
       <div class="w-full flex flex-col items-center gap-2.5 my-auto">
         <div id="playing-set-badge" class="w-full p-3 rounded-2xl bg-pink-600 text-white flex items-center justify-between shadow-lg">
           <span id="playing-set-title" class="font-display font-black text-lg tracking-wide">DALE PLAY: CARA A</span>
@@ -669,7 +575,7 @@
         </div>
       </div>
 
-      <!-- TERCIO INFERIOR: AVISOS NATURALES (CASETE INSERTADO / RETIRA EL CASETE) O BOTONES -->
+      <!-- TERCIO INFERIOR: AVISOS NATURALES O BOTONES -->
       <div class="w-full flex flex-col items-center gap-2.5 pb-4">
         
         <!-- BARRA REGRESIVA VISIBLE (SOLO EN MODO CONTRARRELOJ) -->
@@ -688,7 +594,7 @@
           </div>
         </div>
 
-        <!-- AVISO SENSOR ÓPTICO CON LOS NUEVOS TEXTOS NATURALES Y TAMAÑO GRANDE -->
+        <!-- AVISO SENSOR ÓPTICO CON DESVELADO A 0.5s -->
         <div id="sensor-active-hint" class="hidden w-full text-center p-3.5 rounded-2xl bg-slate-900/95 border-2 border-cyan-400/80 flex flex-col items-center gap-1.5 shadow-[0_0_20px_rgba(49,200,201,0.25)] cursor-pointer" onclick="revealSong()">
           <div class="flex items-center gap-2 text-cyan-300 font-display font-black text-2xl tracking-wide leading-none">
             <span id="sensor-status-dot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 animate-pulse"></span>
@@ -722,7 +628,6 @@
           </div>
           <img id="revealed-set-icon" src="assets/icono-cara-a.png" alt="Set Icon" class="h-10 max-h-12 object-contain drop-shadow">
         </div>
-        <!-- BOTÓN PERSISTENTE AL MENÚ PRINCIPAL -->
         <button onclick="stopMusicAndGo('screen-menu')" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white" title="Ir al Menú Principal">
           <i data-lucide="home" class="w-5 h-5"></i>
         </button>
@@ -741,7 +646,6 @@
         <p id="revealed-movie" class="hidden text-xs text-amber-300 mt-1 font-semibold italic">Película: Toy Story</p>
       </div>
 
-      <!-- BOTONES DE ACCIÓN DESBLOQUEADOS -->
       <div class="w-full flex flex-col gap-3 pb-3 relative z-30 pointer-events-auto">
         <div class="grid grid-cols-2 gap-3 w-full">
           <button id="btn-toggle-pause" onclick="togglePlayback()" class="btn-3d py-3.5 px-3 rounded-2xl bg-[#31c8c9] text-black font-display font-black text-lg tracking-wider flex items-center justify-center gap-1.5 cursor-pointer">
@@ -770,7 +674,6 @@
           <i data-lucide="chevron-left" class="w-6 h-6"></i>
         </button>
         <span class="font-display font-black text-red-500 text-xl tracking-wider">ERROR DE LECTURA</span>
-        <!-- BOTÓN PERSISTENTE AL MENÚ PRINCIPAL -->
         <button onclick="stopCameraAndGo('screen-menu')" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white" title="Ir al Menú Principal">
           <i data-lucide="home" class="w-5 h-5"></i>
         </button>
@@ -807,7 +710,6 @@
           <i data-lucide="chevron-left" class="w-6 h-6"></i>
         </button>
         <span class="font-display font-black text-[#fc7735] text-xl tracking-wider">REGLAS OFICIALES</span>
-        <!-- BOTÓN PERSISTENTE AL MENÚ PRINCIPAL -->
         <button onclick="goToScreen('screen-menu')" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white" title="Ir al Menú Principal">
           <i data-lucide="home" class="w-5 h-5"></i>
         </button>
@@ -871,14 +773,12 @@
           <i data-lucide="chevron-left" class="w-6 h-6"></i>
         </button>
         <span class="font-display font-black text-[#fce01d] text-xl tracking-wider">CONFIGURACIÓN</span>
-        <!-- BOTÓN PERSISTENTE AL MENÚ PRINCIPAL -->
         <button onclick="goToScreen('screen-menu')" class="w-10 h-10 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white" title="Ir al Menú Principal">
           <i data-lucide="home" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div class="flex flex-col gap-4 my-auto py-2">
-        <!-- SECCIÓN: MÉTODO DE REVELACIÓN (3 MODALIDADES) -->
         <div class="retro-card p-4 border border-[#fce01d]/30 flex flex-col gap-3">
           <div class="flex items-center gap-2">
             <i data-lucide="shield" class="w-4 h-4 text-[#fce01d]"></i>
@@ -887,7 +787,6 @@
           <p class="text-xs text-slate-400 leading-tight">¿Cómo deseas reproducir y desvelar la información?</p>
           
           <div class="flex flex-col gap-2.5">
-            <!-- Modalidad 1: Pulsar botón clásico -->
             <label class="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 cursor-pointer hover:border-cyan-400 transition-colors">
               <div class="text-left pr-2">
                 <span class="text-xs text-slate-200 font-bold block">1. Pulsar botón en pantalla</span>
@@ -896,16 +795,14 @@
               <input type="radio" name="secret_mode" value="button" checked onchange="updateSecretModeSetting('button')" class="accent-amber-400 w-4 h-4">
             </label>
 
-            <!-- Modalidad 2: Tapar la cámara delantera con casete arriba -->
             <label class="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 cursor-pointer hover:border-amber-400 transition-colors">
               <div class="text-left pr-2">
                 <span class="text-xs text-amber-300 font-bold block">2. Inserte el casete arriba</span>
-                <span class="text-[10px] text-slate-400">1/4 sobresale arriba para tapar la cámara frontal • Protección 1.5s</span>
+                <span class="text-[10px] text-slate-400">Apoya el casete arriba • Detección 1.5s • Revelado rápido 0.5s</span>
               </div>
               <input type="radio" name="secret_mode" value="cassette" onchange="updateSecretModeSetting('cassette')" class="accent-amber-400 w-4 h-4">
             </label>
 
-            <!-- Modalidad 3: Modo Contrarreloj (Cuenta atrás 3s + Timer 10s/15s/20s/30s) -->
             <div class="p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 flex flex-col gap-2.5">
               <label class="flex items-center justify-between cursor-pointer">
                 <div class="text-left pr-2">
@@ -915,7 +812,6 @@
                 <input type="radio" name="secret_mode" value="timed" onchange="updateSecretModeSetting('timed')" class="accent-cyan-400 w-4 h-4">
               </label>
 
-              <!-- Subselector de Segundos Contrarreloj (10s, 15s, 20s y 30s) -->
               <div id="timed-seconds-selector" class="pt-2 border-t border-slate-700/80 flex items-center justify-between">
                 <span class="text-[11px] font-bold text-slate-300">Tiempo de ronda:</span>
                 <div class="flex items-center gap-1.5">
@@ -929,7 +825,6 @@
           </div>
         </div>
 
-        <!-- FORMULARIO SUGERENCIAS EMAILJS -->
         <div class="retro-card p-4 border-cyan-500/30">
           <div class="flex items-center gap-2 mb-1">
             <i data-lucide="message-square" class="w-4 h-4 text-cyan-400"></i>
@@ -946,7 +841,6 @@
           <p id="feedback-status" class="hidden text-[10px] text-center mt-1.5 font-bold"></p>
         </div>
 
-        <!-- REDES SOCIALES -->
         <div class="retro-card p-4 text-center">
           <p class="text-xs font-bold text-slate-300 mb-1">¡SÍGUENOS EN NUESTRAS REDES SOCIALES!</p>
           <p class="font-display font-black text-lg text-cyan-400 mb-3 tracking-wider">@Ludyco.Bo</p>
@@ -975,7 +869,7 @@
     if (window.lucide) lucide.createIcons();
 
     // ========================================================
-    // 1. DETECCIÓN DE ENTORNO E INSTALACIÓN PWA
+    // 1. DETECCIÓN INTELIGENTE DE ENTORNO E INSTALACIÓN PWA
     // ========================================================
     function isRunningOnIos() {
       const ua = window.navigator.userAgent;
@@ -992,6 +886,11 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
+      // Actualizar botón si está visible
+      const btn = document.getElementById('btn-pwa-android-direct');
+      if (btn) {
+        btn.classList.remove('opacity-60');
+      }
     });
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -1001,21 +900,227 @@
       const radio = document.querySelector(`input[name="secret_mode"][value="${savedMode}"]`);
       if (radio) radio.checked = true;
 
-      // Cargar duración contrarreloj guardada (10, 15, 20 o 30)
+      // Cargar duración contrarreloj guardada
       const savedDuration = parseInt(localStorage.getItem('daleplay_round_duration') || '15', 10);
       setRoundDuration(savedDuration);
 
-      // Si la app NO está instalada en la pantalla de inicio, mostrar la guía visual de instalación
-      if (!isAppAlreadyInstalled()) {
+      // Renderizar pestañas según SO (Android vs iOS)
+      setupInstallGuideModal();
+
+      // Verificar si ya está instalada o si el usuario ya descartó el aviso
+      const isDismissed = localStorage.getItem('daleplay_install_dismissed_v2') === 'true';
+      if (!isAppAlreadyInstalled() && !isDismissed) {
         setTimeout(() => {
           openInstallModal();
-        }, 800);
+        }, 900);
       }
     });
 
     // ========================================================
-    // GUÍA DE INSTALACIÓN MULTI-NAVEGADOR: CHROME, EDGE, SAFARI, OTROS
+    // CONFIGURACIÓN DINÁMICA DEL MODAL SEGÚN ANDROID VS IOS
     // ========================================================
+    function setupInstallGuideModal() {
+      const tabsHeader = document.getElementById('install-tabs-header');
+      const guidesContainer = document.getElementById('install-guides-container');
+      if (!tabsHeader || !guidesContainer) return;
+
+      const isIOS = isRunningOnIos();
+
+      if (isIOS) {
+        // Pestañas iOS: Safari, Chrome, Edge, Otros
+        tabsHeader.className = "grid grid-cols-4 gap-1 p-1 rounded-xl bg-slate-800/80 border border-slate-700 text-[11px] font-bold";
+        tabsHeader.innerHTML = `
+          <button id="tab-safari" onclick="switchBrowserTab('safari')" class="py-1.5 rounded-lg bg-[#31c8c9] text-black font-display font-black tracking-wide transition-all">SAFARI</button>
+          <button id="tab-chrome" onclick="switchBrowserTab('chrome')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">CHROME</button>
+          <button id="tab-edge" onclick="switchBrowserTab('edge')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">EDGE</button>
+          <button id="tab-otros" onclick="switchBrowserTab('otros')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">OTROS</button>
+        `;
+
+        // Guías iOS (SIN botón de instalación directa porque Apple no lo permite)
+        guidesContainer.innerHTML = `
+          <!-- SAFARI IOS -->
+          <div id="content-safari" class="browser-guide flex flex-col gap-2.5">
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="share" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
+                <p class="text-slate-200">Toca el botón <span class="text-white font-bold">Compartir</span> (el cuadro con la flecha hacia arriba) en Safari.</p>
+              </div>
+            </div>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
+                <p class="text-slate-200">Baja en la lista y pulsa <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHROME IOS -->
+          <div id="content-chrome" class="browser-guide hidden flex flex-col gap-2.5">
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="share" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
+                <p class="text-slate-200">En Chrome, toca el icono de <span class="text-white font-bold">Compartir</span> o el menú <span class="text-white font-bold">(···)</span>.</p>
+              </div>
+            </div>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
+                <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- EDGE IOS -->
+          <div id="content-edge" class="browser-guide hidden flex flex-col gap-2.5">
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="menu" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
+                <p class="text-slate-200">Toca el menú <span class="text-white font-bold">( ☰ o ··· )</span> en la barra inferior de Edge.</p>
+              </div>
+            </div>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
+                <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Agregar a la pantalla principal"</span>.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- OTROS IOS (Mozilla Firefox, Brave, Opera) -->
+          <div id="content-otros" class="browser-guide hidden flex flex-col gap-2.5">
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="share-2" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
+                <p class="text-slate-200">En <span class="text-white font-bold">Firefox, Brave u Opera</span>, pulsa Compartir o el menú principal.</p>
+              </div>
+            </div>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
+                <p class="text-slate-200">Toca <span class="text-amber-300 font-bold">"Agregar a pantalla de inicio"</span>.</p>
+              </div>
+            </div>
+          </div>
+        `;
+
+      } else {
+        // Pestañas Android: EDGE, CHROME, OTROS
+        tabsHeader.className = "grid grid-cols-3 gap-1 p-1 rounded-xl bg-slate-800/80 border border-slate-700 text-[11px] font-bold";
+        tabsHeader.innerHTML = `
+          <button id="tab-edge" onclick="switchBrowserTab('edge')" class="py-1.5 rounded-lg bg-[#31c8c9] text-black font-display font-black tracking-wide transition-all">EDGE</button>
+          <button id="tab-chrome" onclick="switchBrowserTab('chrome')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">CHROME</button>
+          <button id="tab-otros" onclick="switchBrowserTab('otros')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">OTROS</button>
+        `;
+
+        // Guías Android (CON botón directo en cada una de ellas)
+        guidesContainer.innerHTML = `
+          <!-- EDGE ANDROID -->
+          <div id="content-edge" class="browser-guide flex flex-col gap-2.5">
+            <button onclick="triggerDirectInstallPrompt('edge')" class="btn-3d w-full py-2.5 rounded-xl bg-[#31c8c9] text-black font-display font-black text-sm tracking-wider hover:bg-[#28b5b6] transition-colors flex items-center justify-center gap-2">
+              <i data-lucide="download" class="w-4 h-4 fill-current"></i>
+              <span>INSTALAR DIRECTAMENTE</span>
+            </button>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="menu" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
+                <p class="text-slate-200">Toca el menú <span class="text-white font-bold">( ☰ o ··· )</span> en la barra inferior de Edge.</p>
+              </div>
+            </div>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
+                <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Agregar al teléfono"</span> o <span class="text-amber-300 font-bold">"Instalar aplicación"</span>.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHROME ANDROID -->
+          <div id="content-chrome" class="browser-guide hidden flex flex-col gap-2.5">
+            <button onclick="triggerDirectInstallPrompt('chrome')" class="btn-3d w-full py-2.5 rounded-xl bg-[#31c8c9] text-black font-display font-black text-sm tracking-wider hover:bg-[#28b5b6] transition-colors flex items-center justify-center gap-2">
+              <i data-lucide="download" class="w-4 h-4 fill-current"></i>
+              <span>INSTALAR DIRECTAMENTE</span>
+            </button>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="more-vertical" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
+                <p class="text-slate-200">Toca el menú de tres puntos <span class="text-white font-bold">( ⋮ )</span> en la esquina superior de Chrome.</p>
+              </div>
+            </div>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
+                <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Instalar aplicación"</span> o <span class="text-amber-300 font-bold">"Agregar a la pantalla principal"</span>.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- OTROS ANDROID (Mozilla Firefox, Brave, Opera) -->
+          <div id="content-otros" class="browser-guide hidden flex flex-col gap-2.5">
+            <button onclick="triggerDirectInstallPrompt('otros')" class="btn-3d w-full py-2.5 rounded-xl bg-[#31c8c9] text-black font-display font-black text-sm tracking-wider hover:bg-[#28b5b6] transition-colors flex items-center justify-center gap-2">
+              <i data-lucide="download" class="w-4 h-4 fill-current"></i>
+              <span>INSTALAR DIRECTAMENTE</span>
+            </button>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="menu" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
+                <p class="text-slate-200">En <span class="text-white font-bold">Mozilla Firefox, Brave u Opera</span>, toca el menú principal de tres puntos <span class="text-white font-bold">(⋮)</span>.</p>
+              </div>
+            </div>
+            <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
+              </div>
+              <div class="text-left text-xs">
+                <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
+                <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Instalar"</span> o <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
     function openInstallModal() {
       const modal = document.getElementById('modal-install-guide');
       if (!modal) return;
@@ -1050,8 +1155,15 @@
       if (modal) modal.classList.add('hidden');
     }
 
+    function dismissInstallModalPermanent() {
+      localStorage.setItem('daleplay_install_dismissed_v2', 'true');
+      closeInstallModal();
+    }
+
     function switchBrowserTab(target) {
-      const tabs = ['chrome', 'edge', 'safari', 'otros'];
+      const isIOS = isRunningOnIos();
+      const tabs = isIOS ? ['safari', 'chrome', 'edge', 'otros'] : ['edge', 'chrome', 'otros'];
+      
       tabs.forEach(t => {
         const btn = document.getElementById(`tab-${t}`);
         const content = document.getElementById(`content-${t}`);
@@ -1068,18 +1180,19 @@
       if (window.lucide) lucide.createIcons();
     }
 
-    function triggerDirectInstallPrompt() {
+    function triggerDirectInstallPrompt(browserSource) {
       if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
-            console.log('El usuario aceptó la instalación');
+            localStorage.setItem('daleplay_install_dismissed_v2', 'true');
           }
           deferredPrompt = null;
           closeInstallModal();
         });
       } else {
-        alert('Para instalar: abre el menú (⋮) de tu navegador y pulsa "Instalar aplicación" o "Agregar a la pantalla principal".');
+        // Guía de fallback interactivo cuando el navegador bloquea la llamada programática
+        alert('Para completar la instalación en este navegador:\n\n1. Abre el menú (⋮ o ☰) de tu navegador.\n2. Pulsa "Instalar aplicación" o "Agregar al teléfono".');
       }
     }
 
@@ -1326,7 +1439,6 @@
           updateTimerDisplay();
           updateTimedProgressBar();
 
-          // Al agotarse el tiempo contrarreloj, desvelar automáticamente la canción
           if (AppState.roundRemainingSeconds <= 0) {
             clearInterval(AppState.timerInterval);
             revealSong();
@@ -1356,7 +1468,7 @@
     }
 
     // ========================================================
-    // 5. DETECTOR ÓPTICO CON VOCABULARIO NATURAL Y 1.5S MARGEN
+    // 5. DETECTOR ÓPTICO CON CALIBRACIÓN (1.5s Tapar / 0.5s Revelar)
     // ========================================================
     function startFrontOpticalSensor() {
       if (AppState.frontStream) return;
@@ -1416,6 +1528,7 @@
                 text.textContent = 'CASETE INSERTADO, NO MOVER';
               }
               clearTimeout(AppState.coverTimer);
+              // RETARDO PROTECTOR DE DETECCIÓN: 1.5 SEGUNDOS
               AppState.coverTimer = setTimeout(() => {
                 if (AppState.isCovered && AppState.activeScreen === 'screen-ready') {
                   startPlayback();
@@ -1440,15 +1553,16 @@
               if (AppState.activeScreen === 'screen-playing' && AppState.isPlaying) {
                 showSensorHintUncovered();
                 clearTimeout(AppState.uncoverTimer);
+                // RETARDO DE REVELACIÓN RÁPIDO SOLICITADO: 0.5 SEGUNDOS (500 ms)
                 AppState.uncoverTimer = setTimeout(() => {
                   if (!AppState.isCovered && AppState.activeScreen === 'screen-playing' && AppState.isPlaying) {
                     revealSong();
                   }
-                }, 1500);
+                }, 500);
               }
             }
           }
-        }, 100);
+        }, 80);
 
       }).catch(err => {
         console.warn('Cámara delantera no disponible para sensor óptico:', err);
@@ -1474,7 +1588,7 @@
       const statusDot = document.getElementById('sensor-status-dot');
       if (hintTitle && hintSub) {
         hintTitle.textContent = '¡CASETE RETIRADO! DESVELANDO...';
-        hintSub.textContent = 'Vuelve a tapar si fue un accidente para cancelar';
+        hintSub.textContent = 'Desvelando canción en 0.5s...';
       }
       if (statusDot) {
         statusDot.className = 'w-3.5 h-3.5 rounded-full bg-[#fce01d] animate-ping';
@@ -1807,11 +1921,14 @@
     }
 
     // ==========================================
-    // 8. REGISTRO DE SERVICE WORKER (PWA)
+    // 8. REGISTRO Y ACTUALIZACIÓN DEL SERVICE WORKER (PWA)
     // ==========================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
+        navigator.serviceWorker.register('sw.js?v=2.6').then(reg => {
+          // Forzar a Edge/Chrome a verificar si hay una nueva versión del Service Worker
+          reg.update();
+        }).catch(() => {});
       });
     }
   </script>
