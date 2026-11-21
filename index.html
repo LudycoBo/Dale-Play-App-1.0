@@ -97,13 +97,22 @@
       animation-play-state: paused;
     }
 
-    /* Pulsación del área del casete físico vertical */
-    @keyframes pulse-cassette-glow {
-      0%, 100% { border-color: rgba(49, 200, 201, 0.6); box-shadow: 0 0 20px rgba(49, 200, 201, 0.25); }
-      50% { border-color: rgba(252, 224, 29, 0.9); box-shadow: 0 0 35px rgba(252, 224, 29, 0.45); }
+    /* Pulsación del área superior del casete físico */
+    @keyframes pulse-top-cassette {
+      0%, 100% { border-color: rgba(49, 200, 201, 0.8); box-shadow: 0 0 25px rgba(49, 200, 201, 0.35); }
+      50% { border-color: rgba(252, 224, 29, 0.95); box-shadow: 0 0 40px rgba(252, 224, 29, 0.55); }
     }
-    .cassette-sensor-active {
-      animation: pulse-cassette-glow 2s infinite ease-in-out;
+    .top-cassette-active {
+      animation: pulse-top-cassette 1.8s infinite ease-in-out;
+    }
+
+    /* Animación de flecha indicadora hacia arriba */
+    @keyframes bounce-up {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .arrow-bounce-up {
+      animation: bounce-up 1.2s infinite ease-in-out;
     }
 
     /* Pulsación de cuenta atrás */
@@ -170,7 +179,7 @@
     <section id="screen-splash" class="app-screen absolute inset-0 z-30 flex flex-col justify-between p-6 pl-8 bg-cover bg-center" style="background-image: url('assets/splash-portada.jpg');">
       <div class="flex items-center justify-between w-full z-10 pt-2">
         <span class="px-3 py-1 rounded-full text-[11px] font-black tracking-wider bg-cyan-950/80 text-cyan-400 border border-cyan-500/30 uppercase">
-          VERSIÓN 1.2
+          VERSIÓN 1.0
         </span>
         <span id="splash-song-count" class="px-3 py-1 rounded-full text-[11px] font-black tracking-wider bg-amber-950/80 text-amber-400 border border-amber-500/30 uppercase">
           348 CANCIONES VERIFICADAS
@@ -185,7 +194,7 @@
           ENTRAR AL JUEGO
         </button>
         <span class="text-[10px] text-slate-300/70 font-mono tracking-widest uppercase">
-          © LUDYCO • EDICIÓN OFICIAL 2025
+          © LUDYCO • EDICIÓN OFICIAL 2026
         </span>
       </div>
     </section>
@@ -244,73 +253,50 @@
         <img src="assets/ludyco.png" alt="Ludyco" class="h-12 max-h-14 object-contain drop-shadow-md">
       </div>
     </section>
-<!-- ======================================================== -->
-    <!-- MODAL EMERGENTE: INSTALAR EN ANDROID (1 SOLO TOQUE)      -->
-    <!-- ======================================================== -->
-    <div id="modal-android-install" class="hidden absolute inset-0 z-50 bg-black/85 flex items-center justify-center p-4 pl-7">
-      <div class="retro-card w-full max-w-[340px] p-5 border-2 border-[#31c8c9] bg-slate-900/95 shadow-2xl flex flex-col gap-3.5">
-        <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-lg bg-[#31c8c9] text-black flex items-center justify-center font-bold">
-              <i data-lucide="download" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <h3 class="font-display font-black text-xl text-cyan-300 tracking-wide">INSTALAR APLICACIÓN</h3>
-          </div>
-          <button onclick="closeAndroidInstallModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center" aria-label="Cerrar">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
 
-        <p class="text-xs text-slate-200 leading-relaxed">
-          Instala <span class="text-white font-bold">Dale Play</span> en tu teléfono para jugar a pantalla completa, con escaneo rápido y sin barras de navegador.
-        </p>
-
-        <button onclick="triggerAndroidInstall()" class="btn-3d w-full py-3.5 rounded-xl bg-[#31c8c9] text-black font-display font-black text-xl tracking-wider hover:bg-[#28b5b6] transition-colors flex items-center justify-center gap-2 mt-1">
-          <i data-lucide="plus-circle" class="w-5 h-5 stroke-[2.5]"></i>
-          <span>INSTALAR APP AHORA</span>
-        </button>
-
-        <button onclick="closeAndroidInstallModal()" class="text-[11px] text-slate-400 font-bold hover:text-white text-center py-1">
-          Continuar en el navegador
-        </button>
-      </div>
-    </div>
     <!-- ======================================================== -->
-    <!-- TARJETA EMERGENTE: CÓMO INSTALAR EN IPHONE (SOLO EN iOS)  -->
+    <!-- MODAL EMERGENTE UNIFICADO: GUÍA DE INSTALACIÓN PWA       -->
+    <!-- SELECCIÓN ENTRE NAVEGADORES: CHROME, EDGE, SAFARI, OTROS -->
     <!-- ======================================================== -->
-    <div id="modal-ios-instructions" class="hidden absolute inset-0 z-50 bg-black/85 flex items-center justify-center p-4 pl-7">
-      <div class="retro-card w-full max-w-[340px] p-5 border-2 border-amber-400/90 bg-slate-900/95 shadow-2xl flex flex-col gap-3.5 max-h-[90vh] overflow-y-auto no-scrollbar">
+    <div id="modal-install-guide" class="hidden absolute inset-0 z-50 bg-black/85 flex items-center justify-center p-4 pl-7">
+      <div class="retro-card w-full max-w-[340px] p-5 border-2 border-[#fce01d]/90 bg-slate-900/95 shadow-2xl flex flex-col gap-3.5 max-h-[90vh] overflow-y-auto no-scrollbar">
         <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-lg bg-[#fce01d] text-black flex items-center justify-center font-bold">
               <i data-lucide="smartphone" class="w-5 h-5 stroke-[2.5]"></i>
             </div>
-            <h3 class="font-display font-black text-xl text-amber-300 tracking-wide">INSTALAR EN IPHONE</h3>
+            <h3 class="font-display font-black text-xl text-[#fce01d] tracking-wide">INSTALAR APLICACIÓN</h3>
           </div>
-          <button onclick="closeIosInstructionsModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center" aria-label="Cerrar">
+          <button onclick="closeInstallModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center" aria-label="Cerrar">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
 
-        <p class="text-[11px] text-slate-300 leading-snug">
-          Para jugar a pantalla completa, elige el navegador que estás usando en tu iPhone:
+        <p class="text-xs text-slate-200 leading-snug text-left">
+          Te recomendamos seguir estos pasos para tener la app instalada y jugar en pantalla completa:
         </p>
 
+        <!-- Pestañas por Navegador: CHROME, EDGE, SAFARI, OTROS -->
         <div class="grid grid-cols-4 gap-1 p-1 rounded-xl bg-slate-800/80 border border-slate-700 text-[11px] font-bold">
-          <button id="tab-safari" onclick="switchBrowserTab('safari')" class="py-1.5 rounded-lg bg-[#31c8c9] text-black font-display font-black tracking-wide transition-all">SAFARI</button>
-          <button id="tab-chrome" onclick="switchBrowserTab('chrome')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">CHROME</button>
+          <button id="tab-chrome" onclick="switchBrowserTab('chrome')" class="py-1.5 rounded-lg bg-[#31c8c9] text-black font-display font-black tracking-wide transition-all">CHROME</button>
           <button id="tab-edge" onclick="switchBrowserTab('edge')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">EDGE</button>
+          <button id="tab-safari" onclick="switchBrowserTab('safari')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">SAFARI</button>
           <button id="tab-otros" onclick="switchBrowserTab('otros')" class="py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all">OTROS</button>
         </div>
 
-        <div id="content-safari" class="browser-guide flex flex-col gap-2.5">
+        <!-- GUÍA CHROME (ANDROID / iOS / PC) -->
+        <div id="content-chrome" class="browser-guide flex flex-col gap-2.5">
+          <button id="btn-pwa-chrome-install" onclick="triggerDirectInstallPrompt()" class="btn-3d w-full py-2.5 rounded-xl bg-[#31c8c9] text-black font-display font-black text-sm tracking-wider hover:bg-[#28b5b6] transition-colors flex items-center justify-center gap-2">
+            <i data-lucide="download" class="w-4 h-4 fill-current"></i>
+            <span>INSTALAR DIRECTAMENTE</span>
+          </button>
           <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="share" class="w-5 h-5 stroke-[2.5]"></i>
+              <i data-lucide="more-vertical" class="w-5 h-5 stroke-[2.5]"></i>
             </div>
             <div class="text-left text-xs">
               <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
-              <p class="text-slate-200">Toca el botón <span class="text-white font-bold">Compartir</span> en la barra inferior.</p>
+              <p class="text-slate-200">Toca el menú <span class="text-white font-bold">( ⋮ o ··· )</span> en la esquina del navegador Chrome.</p>
             </div>
           </div>
           <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
@@ -319,32 +305,12 @@
             </div>
             <div class="text-left text-xs">
               <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
-              <p class="text-slate-200">Baja y pulsa <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
+              <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Instalar aplicación"</span> o <span class="text-amber-300 font-bold">"Agregar a la pantalla principal"</span>.</p>
             </div>
           </div>
         </div>
 
-        <div id="content-chrome" class="browser-guide hidden flex flex-col gap-2.5">
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="more-horizontal" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
-              <p class="text-slate-200">Toca el menú de tres puntos <span class="text-white font-bold">( ··· )</span> en Chrome.</p>
-            </div>
-          </div>
-          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
-              <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
-            </div>
-            <div class="text-left text-xs">
-              <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
-              <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Agregar a la pantalla principal"</span>.</p>
-            </div>
-          </div>
-        </div>
-
+        <!-- GUÍA EDGE -->
         <div id="content-edge" class="browser-guide hidden flex flex-col gap-2.5">
           <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
@@ -352,7 +318,7 @@
             </div>
             <div class="text-left text-xs">
               <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
-              <p class="text-slate-200">Toca el menú <span class="text-white font-bold">( ☰ )</span> en la barra inferior.</p>
+              <p class="text-slate-200">Toca el menú de tres líneas o puntos <span class="text-white font-bold">( ☰ o ··· )</span> en Edge.</p>
             </div>
           </div>
           <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
@@ -361,11 +327,34 @@
             </div>
             <div class="text-left text-xs">
               <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
-              <p class="text-slate-200">Elige <span class="text-amber-300 font-bold">"Agregar a Inicio / Teléfono"</span>.</p>
+              <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Agregar al teléfono"</span> o <span class="text-amber-300 font-bold">"Instalar este sitio como aplicación"</span>.</p>
             </div>
           </div>
         </div>
 
+        <!-- GUÍA SAFARI (iOS / iPhone / iPad) -->
+        <div id="content-safari" class="browser-guide hidden flex flex-col gap-2.5">
+          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
+              <i data-lucide="share" class="w-5 h-5 stroke-[2.5]"></i>
+            </div>
+            <div class="text-left text-xs">
+              <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
+              <p class="text-slate-200">Toca el botón <span class="text-white font-bold">Compartir</span> (el cuadro con la flecha hacia arriba) en la barra inferior.</p>
+            </div>
+          </div>
+          <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-amber-950 text-amber-400 border border-amber-500/40 flex items-center justify-center shrink-0">
+              <i data-lucide="plus-square" class="w-5 h-5 stroke-[2.5]"></i>
+            </div>
+            <div class="text-left text-xs">
+              <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
+              <p class="text-slate-200">Baja en las opciones y pulsa <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- GUÍA OTROS (Firefox, Brave, Samsung Internet, Opera) -->
         <div id="content-otros" class="browser-guide hidden flex flex-col gap-2.5">
           <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-cyan-950 text-cyan-400 border border-cyan-500/40 flex items-center justify-center shrink-0">
@@ -373,7 +362,7 @@
             </div>
             <div class="text-left text-xs">
               <span class="font-display font-black text-cyan-300 text-xs block">PASO 1</span>
-              <p class="text-slate-200">En <span class="text-white font-bold">Firefox o Brave</span>, pulsa el menú (☰ o ···) o Compartir.</p>
+              <p class="text-slate-200">En <span class="text-white font-bold">Firefox, Brave u Opera</span>, pulsa el menú principal o Compartir.</p>
             </div>
           </div>
           <div class="retro-card p-3 bg-slate-800/70 border border-cyan-500/30 flex items-center gap-3">
@@ -382,13 +371,16 @@
             </div>
             <div class="text-left text-xs">
               <span class="font-display font-black text-amber-300 text-xs block">PASO 2</span>
-              <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
+              <p class="text-slate-200">Selecciona <span class="text-amber-300 font-bold">"Instalar"</span> o <span class="text-amber-300 font-bold">"Agregar a la pantalla de inicio"</span>.</p>
             </div>
           </div>
         </div>
 
-        <button onclick="closeIosInstructionsModal()" class="btn-3d w-full py-3 rounded-xl bg-[#fce01d] text-black font-display font-black text-lg tracking-wider hover:bg-amber-300 transition-colors mt-1">
+        <button onclick="closeInstallModal()" class="btn-3d w-full py-3 rounded-xl bg-[#fce01d] text-black font-display font-black text-lg tracking-wider hover:bg-amber-300 transition-colors mt-1">
           ¡ENTENDIDO, A JUGAR!
+        </button>
+        <button onclick="closeInstallModal()" class="text-xs text-slate-400 underline hover:text-white py-0.5">
+          Continuar en el navegador
         </button>
       </div>
     </div>
@@ -524,42 +516,71 @@
         </button>
       </div>
 
-      <!-- VARIANTE 2: MODO SECRETO ÓPTICO (INSERTA EL CASETE) -->
-      <div id="ready-view-cassette" class="hidden flex flex-col items-center justify-center my-auto w-full">
-        <div class="text-center mb-2">
-          <span class="px-3 py-1 rounded-full text-[11px] font-black bg-pink-950/80 text-pink-400 border border-pink-500/40 uppercase tracking-widest">
-            DETECCIÓN ÓPTICA FRONTAL
-          </span>
-          <h2 class="font-display font-black text-4xl text-white tracking-wide mt-2">INSERTA EL CASETE</h2>
-          <p class="text-xs text-slate-300 max-w-[290px] mx-auto leading-snug mt-1">
-            Apoya el casete sobre la cámara selfie para iniciar la música en secreto.
-          </p>
+      <!-- VARIANTE 2: MODO SECRETO ÓPTICO (INSERTE EL CASETE AQUÍ ↑ - REUBICADO SUPERIOR) -->
+      <div id="ready-view-cassette" class="hidden flex flex-col items-center justify-between h-full pt-1 pb-2 w-full">
+        
+        <!-- GUÍA SUPERIOR DEL CASETE FÍSICO (SOBRESALE 1/4 POR ARRIBA PARA TAPAR LA CÁMARA SELFIE) -->
+        <div onclick="handleScreenCovered()" class="w-full max-w-[280px] mx-auto pt-1 cursor-pointer">
+          <!-- Silueta que ilustra 1/4 saliendo del marco superior del teléfono -->
+          <div class="relative w-full h-[145px] rounded-b-3xl border-x-2 border-b-2 border-dashed border-[#31c8c9] bg-gradient-to-b from-cyan-950/90 via-slate-900/90 to-slate-900/95 top-cassette-active flex flex-col items-center justify-between p-2 shadow-2xl">
+            
+            <!-- Flecha hacia arriba e indicación visual de sobresalir 1/4 -->
+            <div class="flex items-center gap-2 py-1 px-3 bg-cyan-950/80 border border-cyan-400/50 rounded-full shadow-md mt-0.5">
+              <i data-lucide="arrow-up" class="w-4 h-4 text-cyan-300 stroke-[3] arrow-bounce-up"></i>
+              <span class="text-[10px] font-black text-cyan-300 tracking-wider uppercase">1/4 SOBRESALE POR ARRIBA</span>
+              <i data-lucide="arrow-up" class="w-4 h-4 text-cyan-300 stroke-[3] arrow-bounce-up"></i>
+            </div>
+
+            <!-- Gráfico esquemático de casete centrado tapando la cámara frontal -->
+            <div class="flex items-center gap-4 my-auto">
+              <div class="w-8 h-8 rounded-full border-2 border-dashed border-[#fce01d] flex items-center justify-center bg-black/60">
+                <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+              </div>
+              <div class="w-10 h-3 rounded bg-black/80 border border-slate-700 flex items-center justify-center">
+                <div class="w-6 h-1 bg-cyan-400/80 rounded-full"></div>
+              </div>
+              <div class="w-8 h-8 rounded-full border-2 border-dashed border-[#fce01d] flex items-center justify-center bg-black/60">
+                <div class="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+              </div>
+            </div>
+
+            <div class="w-full py-1 rounded-xl bg-black/80 border border-cyan-500/30 text-center">
+              <span class="text-[10px] font-mono font-bold text-cyan-300 tracking-widest uppercase">CUBRE CÁMARA FRONTAL</span>
+            </div>
+          </div>
         </div>
 
-        <div id="front-sensor-status-badge" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-xs font-bold text-slate-300 my-2 shadow">
-          <span id="front-sensor-dot" class="w-3 h-3 rounded-full bg-emerald-400"></span>
-          <span id="front-sensor-text">CÁMARA DELANTERA LISTA (DESCUBIERTA)</span>
+        <!-- MITAD INFERIOR: ELEMENTOS BAJADOS PARA NO SER TAPADOS POR EL CASETE -->
+        <div class="w-full flex flex-col items-center gap-2.5 mt-auto pt-3">
+          
+          <!-- MENSAJE NATURAL CON FLECHA EN TAMAÑO DESTACADO Y LEGIBLE -->
+          <div class="text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/90 border border-cyan-400/40 text-cyan-300 text-xs font-black uppercase tracking-widest mb-1.5 shadow">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#fce01d]"></i>
+              <span>MODO SECRETO ÓPTICO</span>
+            </div>
+            
+            <h2 class="font-display font-black text-4xl text-[#fce01d] tracking-wide flex items-center justify-center gap-2 leading-none">
+              <span>INSERTE EL CASETE AQUÍ</span>
+              <i data-lucide="arrow-up" class="w-8 h-8 text-[#fce01d] stroke-[3] arrow-bounce-up"></i>
+            </h2>
+            
+            <p class="text-xs text-slate-300 max-w-[300px] mx-auto leading-tight mt-1.5 font-medium">
+              Apoya el casete de cartón arriba para tapar la cámara frontal. Al retirarlo se revelará la canción.
+            </p>
+          </div>
+
+          <!-- BADGE DE ESTADO DEL SENSOR ÓPTICO -->
+          <div id="front-sensor-status-badge" class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-900/90 border border-slate-700/80 text-xs font-bold text-slate-200 shadow-lg">
+            <span id="front-sensor-dot" class="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></span>
+            <span id="front-sensor-text" class="font-display text-sm tracking-wider">ESPERANDO CASETE ARRIBA...</span>
+          </div>
+
+          <!-- SALIDA DE EMERGENCIA MANUAL -->
+          <button onclick="startPlayback()" class="text-xs text-slate-400 underline hover:text-white py-1">
+            ¿No puedes tapar la cámara? Toca aquí para reproducir
+          </button>
         </div>
-
-        <div onclick="handleScreenCovered()" class="relative w-[190px] h-[250px] rounded-3xl border-2 border-dashed border-[#31c8c9] bg-slate-900/85 cassette-sensor-active flex flex-col items-center justify-between p-4 cursor-pointer transition-all shadow-2xl my-2">
-          <div class="w-full flex items-center justify-center gap-2 py-1 bg-cyan-950/70 border border-cyan-500/40 rounded-xl">
-            <i data-lucide="camera" class="w-4 h-4 text-cyan-300"></i>
-            <span class="text-[10px] font-bold text-cyan-300 uppercase">ZONA CÁMARA FRONTAL</span>
-          </div>
-
-          <div class="w-12 h-12 rounded-full border-2 border-[#fce01d] flex items-center justify-center bg-black/60 shadow">
-            <div class="w-4 h-4 rounded-full bg-slate-700 border border-white/20"></div>
-          </div>
-
-          <div class="w-full py-1.5 rounded-xl bg-black/80 border border-slate-700 text-center">
-            <span class="font-display font-black text-xs text-[#31c8c9] tracking-wider block">CASETE VERTICAL</span>
-            <span class="text-[9px] font-mono text-slate-400">APOYA CUBRIENDO ARRIBA</span>
-          </div>
-        </div>
-
-        <button onclick="startPlayback()" class="mt-3 text-xs text-slate-400 underline hover:text-white">
-          ¿No puedes tapar la cámara? Toca aquí para reproducir
-        </button>
       </div>
 
       <!-- VARIANTE 3: MODO CONTRARRELOJ (CUENTA ATRÁS VISIBLE DE 3s) -->
@@ -589,6 +610,7 @@
 
     <!-- ======================================================== -->
     <!-- 6. PANTALLA: REPRODUCIENDO (CASETE / TEMPORIZADOR)       -->
+    <!-- ELEMENTOS BAJADOS PARA NO QUEDAR TAPADOS POR EL CARTÓN    -->
     <!-- ======================================================== -->
     <section id="screen-playing" class="app-screen hidden absolute inset-0 z-20 flex flex-col justify-between p-6 pl-9 bg-grunge">
       <div class="flex items-center justify-between w-full pt-2">
@@ -605,33 +627,39 @@
         </button>
       </div>
 
-      <!-- 1. MITAD SUPERIOR: CASETE ANALÓGICO -->
-      <div class="w-full flex flex-col items-center gap-3 pt-2">
-        <div id="playing-set-badge" class="w-full p-3.5 rounded-2xl bg-pink-600 text-white flex items-center justify-between shadow-lg">
-          <span id="playing-set-title" class="font-display font-black text-xl tracking-wide">DALE PLAY: CARA A</span>
+      <!-- ZONA SUPERIOR RESERVADA PARA EL CASETE FÍSICO DE CARTÓN -->
+      <div id="playing-top-cassette-placeholder" class="hidden w-full max-w-[280px] mx-auto h-[120px] rounded-b-2xl border-x-2 border-b-2 border-dashed border-[#31c8c9]/50 bg-black/40 flex flex-col items-center justify-center p-2 text-center pointer-events-none mb-1">
+        <span class="text-[10px] font-mono text-cyan-300 tracking-wider">ZONA DEL CASETE FÍSICO</span>
+        <span class="text-[9px] text-slate-400">1/4 sobresale por arriba</span>
+      </div>
+
+      <!-- MITAD INFERIOR DESPEJADA: CASETE ANALÓGICO VIRTUAL + CONTROLES (COMPLETAMENTE VISIBLES) -->
+      <div class="w-full flex flex-col items-center gap-2.5 my-auto">
+        <div id="playing-set-badge" class="w-full p-3 rounded-2xl bg-pink-600 text-white flex items-center justify-between shadow-lg">
+          <span id="playing-set-title" class="font-display font-black text-lg tracking-wide">DALE PLAY: CARA A</span>
           <span id="playing-timer" class="px-3 py-1 rounded-lg bg-black/50 font-mono text-sm font-bold border border-white/10 tracking-widest">00:00</span>
         </div>
 
-        <div class="w-full max-w-[330px] rounded-2xl bg-[#141622] border-2 border-slate-700/80 p-4 flex flex-col justify-between relative shadow-2xl overflow-hidden">
-          <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 mb-2">
+        <div class="w-full max-w-[330px] rounded-2xl bg-[#141622] border-2 border-slate-700/80 p-3.5 flex flex-col justify-between relative shadow-2xl overflow-hidden">
+          <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 mb-1.5">
             <span class="font-bold text-amber-400">SIDE A • STEREO</span>
-            <span id="playing-method-indicator" class="text-cyan-400 font-bold">TEMPORIZADOR REGRESIVO</span>
+            <span id="playing-method-indicator" class="text-cyan-400 font-bold">SENSOR ÓPTICO FRONTAL</span>
           </div>
 
-          <div class="w-full h-24 rounded-xl bg-black/90 border border-slate-800 flex items-center justify-around px-6 relative">
-            <div id="reel-left" class="w-14 h-14 rounded-full border-4 border-dashed border-[#fce01d] flex items-center justify-center spin-reel">
-              <div class="w-4 h-4 rounded-full bg-[#1e202e] border-2 border-white/20"></div>
+          <div class="w-full h-20 rounded-xl bg-black/90 border border-slate-800 flex items-center justify-around px-6 relative">
+            <div id="reel-left" class="w-12 h-12 rounded-full border-4 border-dashed border-[#fce01d] flex items-center justify-center spin-reel">
+              <div class="w-3.5 h-3.5 rounded-full bg-[#1e202e] border-2 border-white/20"></div>
             </div>
-            <div class="w-12 h-5 bg-[#1b1d28] rounded border border-slate-700/60 flex items-center justify-center">
-              <div class="w-8 h-1.5 bg-black/80 rounded-full"></div>
+            <div class="w-10 h-4 bg-[#1b1d28] rounded border border-slate-700/60 flex items-center justify-center">
+              <div class="w-7 h-1 bg-black/80 rounded-full"></div>
             </div>
-            <div id="reel-right" class="w-14 h-14 rounded-full border-4 border-dashed border-[#fce01d] flex items-center justify-center spin-reel">
-              <div class="w-4 h-4 rounded-full bg-[#1e202e] border-2 border-white/20"></div>
+            <div id="reel-right" class="w-12 h-12 rounded-full border-4 border-dashed border-[#fce01d] flex items-center justify-center spin-reel">
+              <div class="w-3.5 h-3.5 rounded-full bg-[#1e202e] border-2 border-white/20"></div>
             </div>
           </div>
 
-          <div class="flex justify-between items-center mt-3 pt-2 border-t border-slate-800">
-            <button id="btn-forward-20" onclick="forward20Seconds()" class="px-3.5 py-1.5 rounded-xl bg-slate-800/90 border border-slate-600 text-xs font-bold text-slate-200 flex items-center gap-2 hover:text-cyan-300 active:scale-95 transition-all">
+          <div class="flex justify-between items-center mt-2.5 pt-2 border-t border-slate-800">
+            <button id="btn-forward-20" onclick="forward20Seconds()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 border border-slate-600 text-xs font-bold text-slate-200 flex items-center gap-2 hover:text-cyan-300 active:scale-95 transition-all">
               <i data-lucide="fast-forward" class="w-4 h-4 text-cyan-400 fill-current"></i>
               <span>+20s Adelantar</span>
               <span id="badge-forward-use" class="text-[9px] px-1.5 py-0.5 rounded bg-[#fce01d] text-black font-black">1 USO X RONDA</span>
@@ -641,11 +669,11 @@
         </div>
       </div>
 
-      <!-- 2. MITAD INFERIOR: TEMPORIZADOR VISIBLE O BOTÓN MOSTRAR CANCIÓN -->
-      <div class="w-full flex flex-col items-center gap-3 pb-4">
+      <!-- TERCIO INFERIOR: AVISOS NATURALES (CASETE INSERTADO / RETIRA EL CASETE) O BOTONES -->
+      <div class="w-full flex flex-col items-center gap-2.5 pb-4">
         
         <!-- BARRA REGRESIVA VISIBLE (SOLO EN MODO CONTRARRELOJ) -->
-        <div id="timed-countdown-bar" class="hidden w-full retro-card p-3.5 border-amber-500/50 flex flex-col gap-2">
+        <div id="timed-countdown-bar" class="hidden w-full retro-card p-3 border-amber-500/50 flex flex-col gap-2">
           <div class="flex items-center justify-between text-xs font-bold">
             <span class="text-amber-300 font-display text-lg tracking-wide flex items-center gap-1.5">
               <i data-lucide="clock" class="w-4 h-4 text-[#fce01d]"></i>
@@ -660,18 +688,18 @@
           </div>
         </div>
 
-        <!-- AVISO SENSOR ÓPTICO (SIN TEXTOS DE 1.5S) -->
-        <div id="sensor-active-hint" class="hidden w-full text-center p-3 rounded-2xl bg-amber-950/70 border border-amber-500/50 flex flex-col items-center gap-1 shadow-lg cursor-pointer" onclick="revealSong()">
-          <div class="flex items-center gap-2 text-amber-300 font-display font-black text-lg tracking-wide">
-            <i data-lucide="shield-alert" class="w-5 h-5 text-[#fce01d]"></i>
-            <span id="sensor-hint-title">MODO SECRETO ACTIVO</span>
+        <!-- AVISO SENSOR ÓPTICO CON LOS NUEVOS TEXTOS NATURALES Y TAMAÑO GRANDE -->
+        <div id="sensor-active-hint" class="hidden w-full text-center p-3.5 rounded-2xl bg-slate-900/95 border-2 border-cyan-400/80 flex flex-col items-center gap-1.5 shadow-[0_0_20px_rgba(49,200,201,0.25)] cursor-pointer" onclick="revealSong()">
+          <div class="flex items-center gap-2 text-cyan-300 font-display font-black text-2xl tracking-wide leading-none">
+            <span id="sensor-status-dot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            <span id="sensor-hint-title">CASETE INSERTADO, NO MOVER</span>
           </div>
-          <p id="sensor-hint-subtitle" class="text-xs text-slate-200 leading-snug">
-            Levanta el casete para desvelar la información de la canción.
+          <p id="sensor-hint-subtitle" class="text-xs text-amber-300 font-bold leading-snug">
+            RETIRA EL CASETE PARA REVELAR LA CANCIÓN
           </p>
         </div>
 
-        <!-- BOTÓN MOSTRAR CANCIÓN (SIEMPRE DISPONIBLE EN BOTÓN O CUANDO ADIVINEN ANTES) -->
+        <!-- BOTÓN MOSTRAR CANCIÓN (MODO PULSAR BOTÓN CLÁSICO) -->
         <div id="container-reveal-btn" class="w-full">
           <button id="btn-reveal-song-main" onclick="revealSong()" class="btn-3d w-full py-4 rounded-2xl bg-[#31c8c9] text-black font-display font-black text-2xl tracking-wider flex items-center justify-center gap-2 hover:bg-[#28b5b6] transition-colors">
             <span>MOSTRAR CANCIÓN</span>
@@ -802,7 +830,7 @@
             <h4 class="font-display font-black text-lg text-white">¡DALE PLAY!</h4>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Presiona el botón gigante, apoya el casete o usa el temporizador contrarreloj para escuchar la canción oculta.
+            Presiona el botón gigante, apoya el casete arriba o usa el temporizador contrarreloj para escuchar la canción oculta.
           </p>
         </div>
 
@@ -868,11 +896,11 @@
               <input type="radio" name="secret_mode" value="button" checked onchange="updateSecretModeSetting('button')" class="accent-amber-400 w-4 h-4">
             </label>
 
-            <!-- Modalidad 2: Tapar la cámara delantera con casete -->
+            <!-- Modalidad 2: Tapar la cámara delantera con casete arriba -->
             <label class="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-700/60 cursor-pointer hover:border-amber-400 transition-colors">
               <div class="text-left pr-2">
-                <span class="text-xs text-amber-300 font-bold block">2. Tapar Cámara Frontal con el Casete</span>
-                <span class="text-[10px] text-slate-400">Sensor óptico con protección contra movimientos accidentales</span>
+                <span class="text-xs text-amber-300 font-bold block">2. Inserte el casete arriba</span>
+                <span class="text-[10px] text-slate-400">1/4 sobresale arriba para tapar la cámara frontal • Protección 1.5s</span>
               </div>
               <input type="radio" name="secret_mode" value="cassette" onchange="updateSecretModeSetting('cassette')" class="accent-amber-400 w-4 h-4">
             </label>
@@ -947,66 +975,24 @@
     if (window.lucide) lucide.createIcons();
 
     // ========================================================
-    // 1. DETECCIÓN INTELIGENTE DE IOS (SOLO IPHONE/IPAD NO PWA)
+    // 1. DETECCIÓN DE ENTORNO E INSTALACIÓN PWA
     // ========================================================
     function isRunningOnIos() {
       const ua = window.navigator.userAgent;
-      const isIosDevice = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      return isIosDevice;
+      return /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     }
 
     function isAppAlreadyInstalled() {
-      const isStandalone = ('standalone' in window.navigator && window.navigator.standalone) || 
-                           window.matchMedia('(display-mode: standalone)').matches;
-      return isStandalone;
+      return ('standalone' in window.navigator && window.navigator.standalone) || 
+             window.matchMedia('(display-mode: standalone)').matches;
     }
-// ========================================================
-    // GESTIÓN DE INSTALACIÓN NATIVA EN ANDROID (PWA)
-    // ========================================================
+
     let deferredPrompt = null;
 
     window.addEventListener('beforeinstallprompt', (e) => {
-      // Evita la barra genérica del navegador para mostrar nuestro modal temático
       e.preventDefault();
       deferredPrompt = e;
-
-      // Si no es iOS y NO está instalada, mostramos el aviso
-      if (!isRunningOnIos() && !isAppAlreadyInstalled()) {
-        setTimeout(() => {
-          showAndroidInstallModal();
-        }, 1000);
-      }
     });
-
-    function showAndroidInstallModal() {
-      const modal = document.getElementById('modal-android-install');
-      if (modal) {
-        modal.classList.remove('hidden');
-        if (window.lucide) lucide.createIcons();
-      }
-    }
-
-    function closeAndroidInstallModal() {
-      const modal = document.getElementById('modal-android-install');
-      if (modal) modal.classList.add('hidden');
-    }
-
-    function triggerAndroidInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('El usuario aceptó la instalación');
-          }
-          deferredPrompt = null;
-          closeAndroidInstallModal();
-        });
-      } else {
-        // En caso de navegadores alternativos en Android (ej. Firefox o navegador interno)
-        alert('Para instalar: abre el menú (⋮) de tu navegador y pulsa "Instalar aplicación" o "Agregar a la pantalla principal".');
-        closeAndroidInstallModal();
-      }
-    }
 
     window.addEventListener('DOMContentLoaded', () => {
       // Cargar modo de revelación guardado
@@ -1019,19 +1005,24 @@
       const savedDuration = parseInt(localStorage.getItem('daleplay_round_duration') || '15', 10);
       setRoundDuration(savedDuration);
 
-      // Aviso inteligente iOS
-      if (isRunningOnIos() && !isAppAlreadyInstalled()) {
+      // Si la app NO está instalada en la pantalla de inicio, mostrar la guía visual de instalación
+      if (!isAppAlreadyInstalled()) {
         setTimeout(() => {
-          openIosInstructionsModal();
+          openInstallModal();
         }, 800);
       }
     });
 
-    function openIosInstructionsModal() {
-      const modal = document.getElementById('modal-ios-instructions');
-      if (modal) {
-        modal.classList.remove('hidden');
-        const ua = navigator.userAgent;
+    // ========================================================
+    // GUÍA DE INSTALACIÓN MULTI-NAVEGADOR: CHROME, EDGE, SAFARI, OTROS
+    // ========================================================
+    function openInstallModal() {
+      const modal = document.getElementById('modal-install-guide');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+
+      const ua = navigator.userAgent;
+      if (isRunningOnIos()) {
         if (ua.includes('EdgiOS')) {
           switchBrowserTab('edge');
         } else if (ua.includes('CriOS')) {
@@ -1041,31 +1032,55 @@
         } else {
           switchBrowserTab('safari');
         }
-        if (window.lucide) lucide.createIcons();
+      } else {
+        if (ua.includes('Edg/')) {
+          switchBrowserTab('edge');
+        } else if (ua.includes('Firefox') || ua.includes('Opera') || ua.includes('SamsungBrowser')) {
+          switchBrowserTab('otros');
+        } else {
+          switchBrowserTab('chrome');
+        }
       }
+
+      if (window.lucide) lucide.createIcons();
     }
 
-    function closeIosInstructionsModal() {
-      const modal = document.getElementById('modal-ios-instructions');
+    function closeInstallModal() {
+      const modal = document.getElementById('modal-install-guide');
       if (modal) modal.classList.add('hidden');
     }
 
-    function switchBrowserTab(browser) {
-      const tabs = ['safari', 'chrome', 'edge', 'otros'];
+    function switchBrowserTab(target) {
+      const tabs = ['chrome', 'edge', 'safari', 'otros'];
       tabs.forEach(t => {
-        const tabBtn = document.getElementById(`tab-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
         const content = document.getElementById(`content-${t}`);
-        if (!tabBtn || !content) return;
+        if (!btn || !content) return;
 
-        if (t === browser) {
-          tabBtn.className = 'py-1.5 rounded-lg bg-[#31c8c9] text-black font-display font-black tracking-wide transition-all';
+        if (t === target) {
+          btn.className = 'py-1.5 rounded-lg bg-[#31c8c9] text-black font-display font-black tracking-wide transition-all';
           content.classList.remove('hidden');
         } else {
-          tabBtn.className = 'py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all';
+          btn.className = 'py-1.5 rounded-lg text-slate-300 hover:text-white font-display font-black tracking-wide transition-all';
           content.classList.add('hidden');
         }
       });
       if (window.lucide) lucide.createIcons();
+    }
+
+    function triggerDirectInstallPrompt() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('El usuario aceptó la instalación');
+          }
+          deferredPrompt = null;
+          closeInstallModal();
+        });
+      } else {
+        alert('Para instalar: abre el menú (⋮) de tu navegador y pulsa "Instalar aplicación" o "Agregar a la pantalla principal".');
+      }
     }
 
     // ==========================================
@@ -1212,21 +1227,31 @@
         const hintEl = document.getElementById('sensor-active-hint');
         const timedBar = document.getElementById('timed-countdown-bar');
         const methodIndicator = document.getElementById('playing-method-indicator');
+        const topPlaceholder = document.getElementById('playing-top-cassette-placeholder');
+        const revealBtnContainer = document.getElementById('container-reveal-btn');
 
         if (AppState.secretMode === 'cassette') {
           if (hintEl) hintEl.classList.remove('hidden');
           if (timedBar) timedBar.classList.add('hidden');
+          if (topPlaceholder) topPlaceholder.classList.remove('hidden');
+          if (revealBtnContainer) revealBtnContainer.classList.add('hidden');
           if (methodIndicator) methodIndicator.textContent = 'SENSOR ÓPTICO FRONTAL';
+          
+          resetSensorHintToWaiting();
           startFrontOpticalSensor();
         } else if (AppState.secretMode === 'timed') {
           if (hintEl) hintEl.classList.add('hidden');
           if (timedBar) timedBar.classList.remove('hidden');
+          if (topPlaceholder) topPlaceholder.classList.add('hidden');
+          if (revealBtnContainer) revealBtnContainer.classList.remove('hidden');
           if (methodIndicator) methodIndicator.textContent = `TEMPORIZADOR: ${AppState.roundDuration}s`;
           stopFrontOpticalSensor();
           initRoundCountdown();
         } else {
           if (hintEl) hintEl.classList.add('hidden');
           if (timedBar) timedBar.classList.add('hidden');
+          if (topPlaceholder) topPlaceholder.classList.add('hidden');
+          if (revealBtnContainer) revealBtnContainer.classList.remove('hidden');
           if (methodIndicator) methodIndicator.textContent = 'MODO PULSAR BOTÓN';
           stopFrontOpticalSensor();
         }
@@ -1259,7 +1284,7 @@
       if (numberEl) {
         numberEl.textContent = '3';
         numberEl.classList.remove('countdown-anim');
-        void numberEl.offsetWidth; // trigger reflow
+        void numberEl.offsetWidth;
         numberEl.classList.add('countdown-anim');
       }
 
@@ -1331,7 +1356,7 @@
     }
 
     // ========================================================
-    // 5. DETECTOR ÓPTICO CON RETARDO PROTECTOR INTERNO (1.5S)
+    // 5. DETECTOR ÓPTICO CON VOCABULARIO NATURAL Y 1.5S MARGEN
     // ========================================================
     function startFrontOpticalSensor() {
       if (AppState.frontStream) return;
@@ -1376,19 +1401,19 @@
           const dot = document.getElementById('front-sensor-dot');
           const text = document.getElementById('front-sensor-text');
 
-          // CÁMARA TAPADA (< 32)
+          // CÁMARA TAPADA POR CASETE (< 32)
           if (avgBrightness < AppState.opticalDarkThreshold) {
             if (AppState.uncoverTimer) {
               clearTimeout(AppState.uncoverTimer);
               AppState.uncoverTimer = null;
-              resetSensorHintNotice();
+              resetSensorHintToWaiting();
             }
 
             if (!AppState.isCovered) {
               AppState.isCovered = true;
               if (dot && text) {
                 dot.className = 'w-3 h-3 rounded-full bg-cyan-400 animate-pulse';
-                text.textContent = 'CASETE INSERTADO (DETECTANDO...)';
+                text.textContent = 'CASETE INSERTADO, NO MOVER';
               }
               clearTimeout(AppState.coverTimer);
               AppState.coverTimer = setTimeout(() => {
@@ -1408,12 +1433,12 @@
             if (AppState.isCovered) {
               AppState.isCovered = false;
               if (dot && text) {
-                dot.className = 'w-3 h-3 rounded-full bg-emerald-400';
-                text.textContent = 'CÁMARA DELANTERA DESCUBIERTA';
+                dot.className = 'w-3 h-3 rounded-full bg-amber-400 animate-pulse';
+                text.textContent = 'ESPERANDO CASETE ARRIBA...';
               }
 
               if (AppState.activeScreen === 'screen-playing' && AppState.isPlaying) {
-                showSensorHintNotice();
+                showSensorHintUncovered();
                 clearTimeout(AppState.uncoverTimer);
                 AppState.uncoverTimer = setTimeout(() => {
                   if (!AppState.isCovered && AppState.activeScreen === 'screen-playing' && AppState.isPlaying) {
@@ -1430,21 +1455,29 @@
       });
     }
 
-    function showSensorHintNotice() {
+    function resetSensorHintToWaiting() {
       const hintTitle = document.getElementById('sensor-hint-title');
       const hintSub = document.getElementById('sensor-hint-subtitle');
+      const statusDot = document.getElementById('sensor-status-dot');
       if (hintTitle && hintSub) {
-        hintTitle.textContent = '¡LEVANTADO! DESVELANDO CANCIÓN...';
-        hintSub.textContent = 'Tapa de nuevo si fue un movimiento accidental para cancelar.';
+        hintTitle.textContent = 'CASETE INSERTADO, NO MOVER';
+        hintSub.textContent = 'RETIRA EL CASETE PARA REVELAR LA CANCIÓN';
+      }
+      if (statusDot) {
+        statusDot.className = 'w-3.5 h-3.5 rounded-full bg-cyan-400 animate-pulse';
       }
     }
 
-    function resetSensorHintNotice() {
+    function showSensorHintUncovered() {
       const hintTitle = document.getElementById('sensor-hint-title');
       const hintSub = document.getElementById('sensor-hint-subtitle');
+      const statusDot = document.getElementById('sensor-status-dot');
       if (hintTitle && hintSub) {
-        hintTitle.textContent = 'MODO SECRETO ACTIVO';
-        hintSub.textContent = 'Levanta el casete para desvelar la información de la canción.';
+        hintTitle.textContent = '¡CASETE RETIRADO! DESVELANDO...';
+        hintSub.textContent = 'Vuelve a tapar si fue un accidente para cancelar';
+      }
+      if (statusDot) {
+        statusDot.className = 'w-3.5 h-3.5 rounded-full bg-[#fce01d] animate-ping';
       }
     }
 
@@ -1570,7 +1603,7 @@
       const setIconSrc = isSet2 ? 'assets/icono-animados.png' : 'assets/icono-cara-a.png';
 
       const playingBadge = document.getElementById('playing-set-badge');
-      playingBadge.className = `w-full p-3.5 rounded-2xl ${setBadgeColor} text-white flex items-center justify-between shadow-lg`;
+      playingBadge.className = `w-full p-3 rounded-2xl ${setBadgeColor} text-white flex items-center justify-between shadow-lg`;
       document.getElementById('playing-set-title').textContent = setBadgeText;
 
       document.getElementById('revealed-set-text').textContent = setBadgeText;
@@ -1687,7 +1720,6 @@
       if (reelL) reelL.classList.remove('spin-paused');
       if (reelR) reelR.classList.remove('spin-paused');
 
-      // Si no es contrarreloj, correr el cronómetro estándar
       if (AppState.secretMode !== 'timed') {
         clearInterval(AppState.timerInterval);
         AppState.timerInterval = setInterval(() => {
