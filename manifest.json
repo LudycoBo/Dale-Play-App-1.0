@@ -1,6 +1,5 @@
 {
   "name": "Dale Play - Juego Musical",
-  "id": "/Dale-Play-App-by-Ludyco/",
   "short_name": "Dale Play",
   "description": "App complementaria oficial para el juego de mesa musical Dale Play",
   "start_url": "./index.html",
@@ -10,13 +9,13 @@
   "theme_color": "#030712",
   "icons": [
     {
-      "src": "assets/icon-192.png",
+      "src": "icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "assets/apple-touch-icon.png",
+      "src": "apple-touch-icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
