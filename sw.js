@@ -1,54 +1,66 @@
-// Incrementamos la versión a v2 para forzar al celular a desechar la caché vieja
-const CACHE_NAME = 'dale-play-v2';
+// sw.js - Dale Play PWA
+const CACHE_NAME = 'daleplay-cache-v2.6';
 
-const ASSETS_TO_CACHE = [
+// Archivos estáticos base
+const STATIC_ASSETS = [
   './',
-  './index.html',
-  './songs.js',
-  './manifest.json',
-  './assets/apple-touch-icon.png',
-  './assets/fondo.jpg',
-  './assets/splash-portada.jpg',
-  './assets/dale-play.png',
-  './assets/ludyco.png',
-  './assets/icono-cara-a.png',
-  './assets/icono-animados.png'
+  'index.html',
+  'songs.js',
+  'manifest.json',
+  'assets/apple-touch-icon.png',
+  'assets/fondo.jpg',
+  'assets/splash-portada.jpg',
+  'assets/dale-play.png',
+  'assets/ludyco.png',
+  'assets/icono-cara-a.png',
+  'assets/icono-animados.png',
+  'assets/apple-touch-icon.png',
+  'assets/icon-192.png'
 ];
 
-// Instalación: descarga y cachea los archivos asegurando songs.js
+// Instalación: forzar activación inmediata
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE).catch((err) => {
-        console.warn('Aviso: algún recurso opcional no se pudo cachear:', err);
-      });
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
   );
-  self.skipWaiting(); // Toma el control inmediatamente
 });
 
-// Activación: ELIMINA cualquier caché vieja (como dale-play-v1) que tenga errores
+// Activación: borra cualquier caché antigua automáticamente
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => {
-          console.log('Borrando caché antigua:', key);
-          return caches.delete(key);
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Peticiones: busca primero en red o en caché de forma segura
+// Estrategia: Red primero (Network First) para HTML y JS, Caché como respaldo
 self.addEventListener('fetch', (event) => {
+  // Ignorar peticiones a YouTube o librerías externas
+  if (!event.request.url.startsWith(self.location.origin)) return;
+
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      return cachedResponse || fetch(event.request).catch(() => {
-        // En caso de estar sin conexión
-      });
-    })
+    fetch(event.request)
+      .then((networkResponse) => {
+        // Si hay internet, devuelve lo nuevo y actualiza la copia en caché
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return networkResponse;
+      })
+      .catch(() => {
+        // Si no hay internet, recurre a lo guardado
+        return caches.match(event.request);
+      })
   );
 });
